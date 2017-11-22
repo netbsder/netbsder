@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="swordfish, donny.zhang, spring cloud, spring boot, java" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 为什么要使用服务发现我们可以想象一下，当我们需要调用REST API(服务接口)时，我们必须得知道服务的网络地址（IP Address和port）。传统的应用程序都是运行在固定的物理机器上，IP Address和端口号都是相对固定的。但是，在基于云的微服务应用中，这是一个非常难以解决的问题。如下图所示：  在微服">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swordfish云平台 - Spring Cloud 03 - Eureka服务注册与发现">
+<meta property="og:url" content="http://www.donnyzhang.com/2017/10/25/swordfish-cloud-03/index.html">
+<meta property="og:site_name" content="Donny Zhang&#39;s Blog">
+<meta property="og:description" content="1. 为什么要使用服务发现我们可以想象一下，当我们需要调用REST API(服务接口)时，我们必须得知道服务的网络地址（IP Address和port）。传统的应用程序都是运行在固定的物理机器上，IP Address和端口号都是相对固定的。但是，在基于云的微服务应用中，这是一个非常难以解决的问题。如下图所示：  在微服务应用中，服务实例的网络地址（IP Address和Port）是动态分配的，并且">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-01.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-02.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-03.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-04.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-05.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-06.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-07.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-08.png">
+<meta property="og:updated_time" content="2017-11-22T12:23:33.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swordfish云平台 - Spring Cloud 03 - Eureka服务注册与发现">
+<meta name="twitter:description" content="1. 为什么要使用服务发现我们可以想象一下，当我们需要调用REST API(服务接口)时，我们必须得知道服务的网络地址（IP Address和port）。传统的应用程序都是运行在固定的物理机器上，IP Address和端口号都是相对固定的。但是，在基于云的微服务应用中，这是一个非常难以解决的问题。如下图所示：  在微服务应用中，服务实例的网络地址（IP Address和Port）是动态分配的，并且">
+<meta name="twitter:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.donnyzhang.com/2017/10/25/swordfish-cloud-03/"/>
+
+
+
+
+
+  <title>Swordfish云平台 - Spring Cloud 03 - Eureka服务注册与发现 | Donny Zhang's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Donny Zhang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Never underestimate your power to change yourself!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.donnyzhang.com/2017/10/25/swordfish-cloud-03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="donny.zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny Zhang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swordfish云平台 - Spring Cloud 03 - Eureka服务注册与发现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-25T22:31:43+08:00">
+                2017-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swordfish云平台微服务实战/" itemprop="url" rel="index">
+                    <span itemprop="name">Swordfish云平台微服务实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-为什么要使用服务发现"><a href="#1-为什么要使用服务发现" class="headerlink" title="1. 为什么要使用服务发现"></a>1. 为什么要使用服务发现</h1><p>我们可以想象一下，当我们需要调用REST API(服务接口)时，我们必须得知道服务的网络地址（IP Address和port）。传统的应用程序都是运行在固定的物理机器上，IP Address和端口号都是相对固定的。但是，在基于云的微服务应用中，这是一个非常难以解决的问题。如下图所示：</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-01.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-01.png" alt="img"></a></p>
+<p>在微服务应用中，服务实例的网络地址（IP Address和Port）是动态分配的，并且由于系统的弹性伸缩,故障和 升级等问题，一些服务运行的实例数量也是动态变化的。因此，客户端代码需要使用一个非常精准的服务发现机制。</p>
+<p>有两种主要的服务发现方式：</p>
+<ol>
+<li>客户端发现（client-side discovery）</li>
+<li>服务器端发现（server-side discovery）</li>
+</ol>
+<h2 id="1-1-客户端发现"><a href="#1-1-客户端发现" class="headerlink" title="1.1 客户端发现"></a>1.1 客户端发现</h2><p>在使用客户端发现方式时，客户端通过查询服务注册中心，获取可用的服务的实际网络地址（IP Adress 和 端口号）。然后通过负载均衡算法来选择一个可用的服务实例，并将请求发送至该服务。下图显示了客户端发现方式的结构图：</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-02.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-02.png" alt="img"></a></p>
+<p>在服务启动的时候，向服务注册中心注册服务；在服务停止的时候，向服务注册中心注销服务。服务注册的一个典型的实现方式就是通过heartbeat机制定时刷新。Netflix OSS 就是使用客户端发现方式的一个很好的例子。 Netflix Eureka是一个服务注册中心。它提供了一个管理和查询可用服务的 REST API。 负载均衡功能是通过Netflix Ribbon和Eureka一起共同实现的。</p>
+<p>客户端发现方式的优缺点：由于客户端知道所有可用的服务的实际网络地址，所以可以非常方便的实现负载均衡功能（比如：一致性哈希）。但是这种方式有一个非常明显的缺点就是具有非常强的耦合性。针对不同的语言，每个服务的客户端都得实现一套服务发现的功能。</p>
+<h2 id="1-2-服务端发现方式"><a href="#1-2-服务端发现方式" class="headerlink" title="1.2 服务端发现方式"></a>1.2 服务端发现方式</h2><p>另外一种服务发现的方式就是Server-Side Discovery Pattern，下图展示了这种方式的架构示例图:</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-03.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-03.png" alt="img"></a></p>
+<p>客户端向load balancer 发送请求。load balancer 查询服务注册中心找到可用的服务，然后转发请求到该服务上。和客户端发现一样，服务都要到注册中心进行服务注册和注销。</p>
+<p>服务器端发现方式的优点是，服务的发现逻辑对客户端是透明的。客户只需简单的向load balancer发送请求就可以了。这就避免了为每种不同语言的客户端实现一套发现的逻辑。此外，许多软件都内置实现了这种功能。这种方式的一个最大的缺点是，你必须得关心该组件的高可用性。</p>
+<h2 id="1-3-服务注册中心"><a href="#1-3-服务注册中心" class="headerlink" title="1.3 服务注册中心"></a>1.3 服务注册中心</h2><p>服务注册中心是服务发现的核心。它保存了各个可用服务实例的网络地址（IP Address和Port）。服务注册中心必须要有高可用性和实时更新功能。</p>
+<p>上面提到的 Netflix Eureka 就是一个服务注册中心。它提供了服务注册和查询服务信息的REST API。服务通过使用POST请求注册自己的IP Address和Port。每30秒发送一个PUT请求刷新注册信息。通过DELETE请求注销服务。客户端通过GET请求获取可用的服务实例信息。</p>
+<p>其他能够作为服务注册中心的有：</p>
+<ol>
+<li>etcd —– 高可用，分布式，强一致性的，key-value，Kubernetes和Cloud Foundry都是使用了etcd。</li>
+<li>consul —–一个用于discovering和 configuring的工具。它提供了允许客户端注册和发现服务的API。Consul可以进行服务健康检查，以确定服务的可用性。</li>
+<li>zookeeper —— 在分布式应用中被广泛使用，高性能的协调服务。 Apache Zookeeper 最初为Hadoop的一个子项目，但现在是一个顶级项目。</li>
+</ol>
+<p>我们已经了解了服务注册中心的概念，接下来我们看看服务是如果注册到注册中心的。</p>
+<p>有两种不同的方式来处理服务的注册和注销。</p>
+<ol>
+<li>服务自己主动注册-自己注册（self-registration）。</li>
+<li>通过其他组件来管理服务的注册-第三方注册（third-party registration）。</li>
+</ol>
+<h3 id="1-3-1-Self-Registration"><a href="#1-3-1-Self-Registration" class="headerlink" title="1.3.1 Self-Registration"></a>1.3.1 Self-Registration</h3><p>使用Self-Registration的方式注册，服务实例必须自己主动的到注册中心注册和注销。比如可以使用heartbeat机制了实现。下图为这种方式的示意图：</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-04.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-04.png" alt="img"></a>Eureka client就是使用这种方式进行服务注册的。Eureka的客户端处理了服务注册和注销的所有工作。</p>
+<p>Self-Registration方式的优缺点：一个明显的优点就是，非常简单，不需要任何其它辅助组件。而缺点也是比较明显的，使得各个服务和注册中心的耦合度比较高。服务的不同语言的客户端都得实现注册和注销的逻辑。另一种服务注册方式，可以达到解耦的功能，就是third-party registration方式。</p>
+<h3 id="1-3-2-Third-Party-Registration"><a href="#1-3-2-Third-Party-Registration" class="headerlink" title="1.3.2 Third-Party Registration"></a>1.3.2 Third-Party Registration</h3><p>使用Third-Party方式进行服务注册时，服务本身不必关心注册和注销功能。而是通过其他组件（service registrarhandles）来实现服务注册功能。可以通过如事件订阅等方式来监控服务的状态，如果发现一个新的服务实例运行，就向注册中心注册该服务，如果监控到某一服务停止了，就向注册中心注销该服务。下图显示了这种方式的结构图示意图：</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-05.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-05.png" alt="img"></a></p>
+<p>third-party Registration方式的优点是使服务和注册中心解耦，不用为每种语言实现服务注册的逻辑。这种方式的缺点就是必须得考虑该组件的高可用性。</p>
+<h1 id="2-Eureka介绍"><a href="#2-Eureka介绍" class="headerlink" title="2. Eureka介绍"></a>2. Eureka介绍</h1><p>Eureka是Netflix开发的服务发现框架，本身是一个基于REST的服务，主要用于定位运行在云中的中间层服务，以达到负载均衡和中间层服务故障转移的目的。SpringCloud将它集成在其子项目spring-cloud-netflix中，以实现SpringCloud的服务发现功能。</p>
+<p>Eureka包含两个组件：Eureka Server和Eureka Client。</p>
+<h2 id="2-1-Eureka-Server"><a href="#2-1-Eureka-Server" class="headerlink" title="2.1 Eureka Server"></a>2.1 Eureka Server</h2><p>Eureka Server提供服务注册服务，各个节点启动后，会在Eureka Server中进行注册，这样EurekaServer中的服务注册表中将会存储所有可用服务节点的信息，服务节点的信息可以在界面中直观的看到。</p>
+<h2 id="2-2-Eureka-Client"><a href="#2-2-Eureka-Client" class="headerlink" title="2.2 Eureka Client"></a>2.2 Eureka Client</h2><p>Eureka Client是一个java客户端，用于简化与Eureka Server的交互，客户端同时也就别一个内置的、使用轮询(round-robin)负载算法的负载均衡器。</p>
+<h2 id="2-3-其他"><a href="#2-3-其他" class="headerlink" title="2.3 其他"></a>2.3 其他</h2><p>在应用启动后，将会向Eureka Server发送心跳,默认周期为30秒，如果Eureka Server在多个心跳周期内没有接收到某个节点的心跳，Eureka Server将会从服务注册表中把这个服务节点移除(默认90秒)。</p>
+<p>Eureka Server之间通过复制的方式完成数据的同步，Eureka还提供了客户端缓存机制，即使所有的Eureka Server都挂掉，客户端依然可以利用缓存中的信息消费其他服务的API。</p>
+<p>综上，Eureka通过心跳检查、客户端缓存等机制，确保了系统的高可用性、灵活性和可伸缩性。</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-06.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-06.png" alt="Eureka高可用"></a></p>
+<h1 id="3-创建Swordfish-Eureka服务注册中心"><a href="#3-创建Swordfish-Eureka服务注册中心" class="headerlink" title="3. 创建Swordfish Eureka服务注册中心"></a>3. 创建Swordfish Eureka服务注册中心</h1><h2 id="3-1-新建子项目swordfish-eureka"><a href="#3-1-新建子项目swordfish-eureka" class="headerlink" title="3.1 新建子项目swordfish-eureka"></a>3.1 新建子项目swordfish-eureka</h2><p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-07.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-07.png" alt="img"></a></p>
+<h2 id="3-2-添加相关Maven依赖"><a href="#3-2-添加相关Maven依赖" class="headerlink" title="3.2 添加相关Maven依赖"></a>3.2 添加相关Maven依赖</h2><blockquote>
+<p>pom.xml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">     xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">     xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">&lt;parent&gt;</span><br><span class="line">    &lt;artifactId&gt;swordfish-cloud&lt;/artifactId&gt;</span><br><span class="line">    &lt;groupId&gt;com.eastsunsoft&lt;/groupId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">&lt;/parent&gt;</span><br><span class="line">&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">&lt;artifactId&gt;swordfish-eureka&lt;/artifactId&gt;</span><br><span class="line"></span><br><span class="line">&lt;profiles&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profileActive&gt;dev&lt;/profileActive&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">        &lt;activation&gt;</span><br><span class="line">            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">        &lt;/activation&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;test&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profileActive&gt;test&lt;/profileActive&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;product&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profileActive&gt;product&lt;/profileActive&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">&lt;/profiles&gt;</span><br><span class="line"></span><br><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;finalName&gt;$&#123;project.artifactId&#125;-$&#123;project.version&#125;&lt;/finalName&gt;</span><br><span class="line">    &lt;resources&gt;</span><br><span class="line">        &lt;resource&gt;</span><br><span class="line">            &lt;directory&gt;src/main/resources&lt;/directory&gt;</span><br><span class="line">            &lt;filtering&gt;true&lt;/filtering&gt;</span><br><span class="line">        &lt;/resource&gt;</span><br><span class="line">    &lt;/resources&gt;</span><br><span class="line">&lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-undertow&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;</span><br><span class="line">        &lt;exclusions&gt;</span><br><span class="line">            &lt;exclusion&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">            &lt;/exclusion&gt;</span><br><span class="line">        &lt;/exclusions&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="3-3-项目配置"><a href="#3-3-项目配置" class="headerlink" title="3.3 项目配置"></a>3.3 项目配置</h2><blockquote>
+<p>application.yml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  profiles:</span><br><span class="line">    active: @profileActive@</span><br><span class="line">  application:</span><br><span class="line">    name: swordfish-eureka</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>application-dev.yml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 6001</span><br><span class="line">  </span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    # 表示是否将自己注册到服务中心，默认为true</span><br><span class="line">    # 由于当前应用是单点Eureka Server，故设置为false</span><br><span class="line">    register-with-eureka: false</span><br><span class="line">    # 表示是否从Eureka Server获取注册信息，默认为true</span><br><span class="line">    # 由于当前是一个单点的Eureka Server，不需要同步其他的Eureka Server节点数据，故设置为false</span><br><span class="line">    fetch-registry: false</span><br><span class="line">    service-url:</span><br><span class="line">      # 设置与Eureka Server交互的地址，查询和注册服务都需要使用该地址。</span><br><span class="line">      # 多个地址使用,隔开</span><br><span class="line">      defaultZone: http://localhost:$&#123;server.port&#125;/eureka/</span><br></pre></td></tr></table></figure>
+<h2 id="3-4-创建启动类，使用-EnableEurekaServer注解"><a href="#3-4-创建启动类，使用-EnableEurekaServer注解" class="headerlink" title="3.4 创建启动类，使用@EnableEurekaServer注解"></a>3.4 创建启动类，使用@EnableEurekaServer注解</h2><blockquote>
+<p>SwordfishEurekaApp.java</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.eastsunsoft.swordfish.eureka;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &lt;h1&gt;SwordfishEurekaApp&lt;/h1&gt;</span><br><span class="line"> * &lt;/br&gt;</span><br><span class="line"> *</span><br><span class="line"> * @author donny</span><br><span class="line"> * @date 11/09/2017</span><br><span class="line"> */</span><br><span class="line">@EnableEurekaServer</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class SwordfishEurekaApp &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(SwordfishEurekaApp.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-5-启动项目"><a href="#3-5-启动项目" class="headerlink" title="3.5 启动项目"></a>3.5 启动项目</h2><p>启动项目完成后，浏览器访问<a href="http://localhost:6001/" target="_blank" rel="noopener">http://localhost:6001/</a></p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-08.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-08.png" alt="img"></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/23/swordfish-cloud-02/" rel="next" title="Swordfish云平台 - Spring Cloud 02 - Swordfish平台介绍">
+                <i class="fa fa-chevron-left"></i> Swordfish云平台 - Spring Cloud 02 - Swordfish平台介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/25/swordfish-cloud-04/" rel="prev" title="Swordfish云平台 - Spring Cloud 04 - Eureka服务注册与发现高级使用">
+                Swordfish云平台 - Spring Cloud 04 - Eureka服务注册与发现高级使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="donny.zhang" />
+            
+              <p class="site-author-name" itemprop="name">donny.zhang</p>
+              <p class="site-description motion-element" itemprop="description">java, Spring Cloud, Architecture and may be others.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/netbsder" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="22031495#qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-为什么要使用服务发现"><span class="nav-text">1. 为什么要使用服务发现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-客户端发现"><span class="nav-text">1.1 客户端发现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-服务端发现方式"><span class="nav-text">1.2 服务端发现方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-服务注册中心"><span class="nav-text">1.3 服务注册中心</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-Self-Registration"><span class="nav-text">1.3.1 Self-Registration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-Third-Party-Registration"><span class="nav-text">1.3.2 Third-Party Registration</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Eureka介绍"><span class="nav-text">2. Eureka介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Eureka-Server"><span class="nav-text">2.1 Eureka Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Eureka-Client"><span class="nav-text">2.2 Eureka Client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-其他"><span class="nav-text">2.3 其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-创建Swordfish-Eureka服务注册中心"><span class="nav-text">3. 创建Swordfish Eureka服务注册中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-新建子项目swordfish-eureka"><span class="nav-text">3.1 新建子项目swordfish-eureka</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-添加相关Maven依赖"><span class="nav-text">3.2 添加相关Maven依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-项目配置"><span class="nav-text">3.3 项目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-创建启动类，使用-EnableEurekaServer注解"><span class="nav-text">3.4 创建启动类，使用@EnableEurekaServer注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-启动项目"><span class="nav-text">3.5 启动项目</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">donny.zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

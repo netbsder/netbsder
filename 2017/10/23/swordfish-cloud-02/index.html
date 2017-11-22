@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="swordfish, donny.zhang, spring cloud, spring boot, java" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. Swodfish Cloud平台简介基于SpringCloud微服务敏捷开发系统架构，提供整套公共微服务服务模块：内容管理、支付中心、用户管理（包括第三方）、微信平台、存储系统、配置中心、日志分析等，支持服务治理、监控和追踪等功能。 2. 组织结构12345678910111213141516171819swor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swordfish云平台 - Spring Cloud 02 - Swordfish平台介绍">
+<meta property="og:url" content="http://www.donnyzhang.com/2017/10/23/swordfish-cloud-02/index.html">
+<meta property="og:site_name" content="Donny Zhang&#39;s Blog">
+<meta property="og:description" content="1. Swodfish Cloud平台简介基于SpringCloud微服务敏捷开发系统架构，提供整套公共微服务服务模块：内容管理、支付中心、用户管理（包括第三方）、微信平台、存储系统、配置中心、日志分析等，支持服务治理、监控和追踪等功能。 2. 组织结构12345678910111213141516171819swordfish-cloud├── swordfish-common // 公共模块├">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-09.png">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-10.png">
+<meta property="og:updated_time" content="2017-11-22T12:23:34.158Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swordfish云平台 - Spring Cloud 02 - Swordfish平台介绍">
+<meta name="twitter:description" content="1. Swodfish Cloud平台简介基于SpringCloud微服务敏捷开发系统架构，提供整套公共微服务服务模块：内容管理、支付中心、用户管理（包括第三方）、微信平台、存储系统、配置中心、日志分析等，支持服务治理、监控和追踪等功能。 2. 组织结构12345678910111213141516171819swordfish-cloud├── swordfish-common // 公共模块├">
+<meta name="twitter:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-09.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.donnyzhang.com/2017/10/23/swordfish-cloud-02/"/>
+
+
+
+
+
+  <title>Swordfish云平台 - Spring Cloud 02 - Swordfish平台介绍 | Donny Zhang's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Donny Zhang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Never underestimate your power to change yourself!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.donnyzhang.com/2017/10/23/swordfish-cloud-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="donny.zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny Zhang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swordfish云平台 - Spring Cloud 02 - Swordfish平台介绍</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-23T21:55:31+08:00">
+                2017-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Swordfish云平台微服务实战/" itemprop="url" rel="index">
+                    <span itemprop="name">Swordfish云平台微服务实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-Swodfish-Cloud平台简介"><a href="#1-Swodfish-Cloud平台简介" class="headerlink" title="1. Swodfish Cloud平台简介"></a>1. Swodfish Cloud平台简介</h1><p>基于SpringCloud微服务敏捷开发系统架构，提供整套公共微服务服务模块：内容管理、支付中心、用户管理（包括第三方）、微信平台、存储系统、配置中心、日志分析等，支持服务治理、监控和追踪等功能。</p>
+<h1 id="2-组织结构"><a href="#2-组织结构" class="headerlink" title="2. 组织结构"></a>2. 组织结构</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">swordfish-cloud</span><br><span class="line">├── swordfish-common // 公共模块</span><br><span class="line">├── swordfish-config-server // 服务统一配置中心 [端口:6006]</span><br><span class="line">├── swordfish-eureka // 服务注册发现中心 [端口:6001]</span><br><span class="line">├── swordfish-gateway // 微服务网关 [端口:5888]</span><br><span class="line">├── swordfish-hystrix-dashboard // 断路器监控中心 [端口:6002]</span><br><span class="line">├── swordfish-hystrix-turbine // 断路器数据统一聚合服务 [端口:6003]</span><br><span class="line">├── swordfish-zipkin-server // 微服务跟踪系统 [端口:6007]</span><br><span class="line">├── swordfish-ucms // 用户权限管理系统</span><br><span class="line">|    ├── swordfish-ucms-service // ucms微服务单元</span><br><span class="line">├── swordfish-cms -- // 内容管理系统</span><br><span class="line">├── swordfish-sms -- // 短信系统</span><br><span class="line">|    ├── swordfish-sms-service // 短信微服务单元</span><br><span class="line">├── swordfish-pay -- // 支付系统</span><br><span class="line">|    ├── swordfish-pay-service // pay微服务单元</span><br><span class="line">├── swordfish-wechat // 微信系统</span><br><span class="line">├── swordfish-oss // 对象存储系统</span><br><span class="line">|    ├── swordfish-oss-service // 开发工具包</span><br><span class="line">├── swordfish-shop // 电子商务系统</span><br></pre></td></tr></table></figure>
+<h1 id="3-技术选型"><a href="#3-技术选型" class="headerlink" title="3. 技术选型"></a>3. 技术选型</h1><h2 id="3-1-后端技术"><a href="#3-1-后端技术" class="headerlink" title="3.1 后端技术"></a>3.1 后端技术</h2><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>名称</th>
+<th>官网</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Cloud</td>
+<td>微服务框架</td>
+<td><a href="http://projects.spring.io/spring-cloud/" target="_blank" rel="noopener">http://projects.spring.io/spring-cloud/</a></td>
+</tr>
+<tr>
+<td>Spring Cloud Config</td>
+<td>统一配置</td>
+<td><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.3.RELEASE/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.3.RELEASE/</a></td>
+</tr>
+<tr>
+<td>Spring Cloud Bus</td>
+<td>事件总线</td>
+<td><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-bus/1.3.1.RELEASE/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-static/spring-cloud-bus/1.3.1.RELEASE/</a></td>
+</tr>
+<tr>
+<td>Netflix Eureka</td>
+<td>服务发现注册中心组建</td>
+<td><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/</a></td>
+</tr>
+<tr>
+<td>Netflix Hystrix</td>
+<td>微服务容错组建</td>
+<td><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/</a></td>
+</tr>
+<tr>
+<td>Netflix Zuul</td>
+<td>微服务网关组件</td>
+<td><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/1.3.5.RELEASE/</a></td>
+</tr>
+<tr>
+<td>Spring Cloud Sleuth</td>
+<td>微服务日志组件</td>
+<td><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-sleuth/1.2.5.RELEASE/" target="_blank" rel="noopener">https://cloud.spring.io/spring-cloud-static/spring-cloud-sleuth/1.2.5.RELEASE/</a></td>
+</tr>
+<tr>
+<td>Spring Cloud Stream</td>
+<td>数据流操作开发包</td>
+<td><a href="https://docs.spring.io/spring-cloud-stream/docs/Ditmars.RELEASE/reference/htmlsingle/" target="_blank" rel="noopener">https://docs.spring.io/spring-cloud-stream/docs/Ditmars.RELEASE/reference/htmlsingle/</a></td>
+</tr>
+<tr>
+<td>Spring Boot</td>
+<td>Web快速开发框架</td>
+<td><a href="https://docs.spring.io/spring-boot/docs/1.5.8.RELEASE/reference/htmlsingle/" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/1.5.8.RELEASE/reference/htmlsingle/</a></td>
+</tr>
+<tr>
+<td>SpringMVC</td>
+<td>MVC框架</td>
+<td><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc" target="_blank" rel="noopener">http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc</a></td>
+</tr>
+<tr>
+<td>jwt</td>
+<td>无状态分布式安全技术</td>
+<td><a href="https://jwt.io/" target="_blank" rel="noopener">https://jwt.io/</a></td>
+</tr>
+<tr>
+<td>MyBatis</td>
+<td>ORM框架</td>
+<td><a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="noopener">http://www.mybatis.org/mybatis-3/zh/index.html</a></td>
+</tr>
+<tr>
+<td>tkmapper</td>
+<td>MyBatis通用Mapper</td>
+<td><a href="https://gitee.com/free/Mapper" target="_blank" rel="noopener">https://gitee.com/free/Mapper</a></td>
+</tr>
+<tr>
+<td>PageHelper</td>
+<td>MyBatis物理分页插件</td>
+<td><a href="https://gitee.com/free/Mybatis_PageHelper" target="_blank" rel="noopener">https://gitee.com/free/Mybatis_PageHelper</a></td>
+</tr>
+<tr>
+<td>Druid</td>
+<td>数据库连接池</td>
+<td><a href="https://github.com/alibaba/druid" target="_blank" rel="noopener">https://github.com/alibaba/druid</a></td>
+</tr>
+<tr>
+<td>FluentValidator</td>
+<td>校验框架</td>
+<td><a href="https://github.com/neoremind/fluent-validator" target="_blank" rel="noopener">https://github.com/neoremind/fluent-validator</a></td>
+</tr>
+<tr>
+<td>freemarker</td>
+<td>模板引擎</td>
+<td><a href="http://www.thymeleaf.org/" target="_blank" rel="noopener">http://www.thymeleaf.org/</a></td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>分布式缓存数据库</td>
+<td><a href="https://redis.io/" target="_blank" rel="noopener">https://redis.io/</a></td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td>分布式全文搜索引擎</td>
+<td><a href="http://lucene.apache.org/solr/" target="_blank" rel="noopener">http://lucene.apache.org/solr/</a><a href="https://www.elastic.co/" target="_blank" rel="noopener">https://www.elastic.co/</a></td>
+</tr>
+<tr>
+<td>RabbitMQ</td>
+<td>消息队列</td>
+<td><a href="http://www.rabbitmq.com/" target="_blank" rel="noopener">http://www.rabbitmq.com/</a></td>
+</tr>
+<tr>
+<td>Log4J</td>
+<td>日志组件</td>
+<td><a href="http://logging.apache.org/log4j/1.2/" target="_blank" rel="noopener">http://logging.apache.org/log4j/1.2/</a></td>
+</tr>
+<tr>
+<td>Swagger2</td>
+<td>接口测试框架</td>
+<td><a href="http://swagger.io/" target="_blank" rel="noopener">http://swagger.io/</a></td>
+</tr>
+<tr>
+<td>AliOSS &amp; Qiniu &amp; QcloudCOS</td>
+<td>云存储</td>
+<td><a href="https://www.aliyun.com/product/oss/" target="_blank" rel="noopener">https://www.aliyun.com/product/oss/</a> <a href="http://www.qiniu.com/" target="_blank" rel="noopener">http://www.qiniu.com/</a><a href="https://www.qcloud.com/product/cos" target="_blank" rel="noopener">https://www.qcloud.com/product/cos</a></td>
+</tr>
+<tr>
+<td>jackson &amp; json</td>
+<td>数据序列化</td>
+<td><a href="https://github.com/FasterXML/jackson" target="_blank" rel="noopener">https://github.com/FasterXML/jackson</a></td>
+</tr>
+<tr>
+<td>Jenkins</td>
+<td>持续集成工具</td>
+<td><a href="https://jenkins.io/index.html" target="_blank" rel="noopener">https://jenkins.io/index.html</a></td>
+</tr>
+<tr>
+<td>Maven</td>
+<td>项目构建管理</td>
+<td><a href="http://maven.apache.org/" target="_blank" rel="noopener">http://maven.apache.org/</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-2-前端技术"><a href="#3-2-前端技术" class="headerlink" title="3.2 前端技术"></a>3.2 前端技术</h2><table>
+<thead>
+<tr>
+<th>技术</th>
+<th>名称</th>
+<th>官网</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vue</td>
+<td>渐进式前端框架</td>
+<td><a href="https://cn.vuejs.org/" target="_blank" rel="noopener">https://cn.vuejs.org/</a></td>
+</tr>
+<tr>
+<td>vue-router</td>
+<td>前端路由</td>
+<td><a href="https://router.vuejs.org/zh-cn/" target="_blank" rel="noopener">https://router.vuejs.org/zh-cn/</a></td>
+</tr>
+<tr>
+<td>vuex</td>
+<td>状态管理</td>
+<td><a href="https://vuex.vuejs.org/zh-cn/" target="_blank" rel="noopener">https://vuex.vuejs.org/zh-cn/</a></td>
+</tr>
+<tr>
+<td>iview</td>
+<td>基于vue前端ui库</td>
+<td><a href="https://www.iviewui.com/" target="_blank" rel="noopener">https://www.iviewui.com/</a></td>
+</tr>
+<tr>
+<td>axios</td>
+<td>http client库</td>
+<td><a href="https://github.com/axios/axios" target="_blank" rel="noopener">https://github.com/axios/axios</a></td>
+</tr>
+<tr>
+<td>webpack</td>
+<td>前端构建工具</td>
+<td><a href="http://webpack.github.io/" target="_blank" rel="noopener">http://webpack.github.io/</a></td>
+</tr>
+<tr>
+<td>nodejs</td>
+<td>js运行环境</td>
+<td><a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></td>
+</tr>
+<tr>
+<td>Font-awesome</td>
+<td>字体图标</td>
+<td><a href="http://fontawesome.io/" target="_blank" rel="noopener">http://fontawesome.io/</a></td>
+</tr>
+<tr>
+<td>material-design-iconic-font</td>
+<td>字体图标</td>
+<td><a href="https://github.com/zavoloklom/material-design-iconic-font" target="_blank" rel="noopener">https://github.com/zavoloklom/material-design-iconic-font</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="4-微服务单元介绍"><a href="#4-微服务单元介绍" class="headerlink" title="4. 微服务单元介绍"></a>4. 微服务单元介绍</h1><h2 id="4-1-swordfish-common"><a href="#4-1-swordfish-common" class="headerlink" title="4.1 swordfish-common"></a>4.1 swordfish-common</h2><h2 id="4-2-swordfish-config-server"><a href="#4-2-swordfish-config-server" class="headerlink" title="4.2 swordfish-config-server"></a>4.2 swordfish-config-server</h2><p>统一配置服务中心，用于对所有微服务配置进行统一管理</p>
+<h2 id="4-3-swordfish-eureka"><a href="#4-3-swordfish-eureka" class="headerlink" title="4.3 swordfish-eureka"></a>4.3 swordfish-eureka</h2><p>服务发现注册中心，用于所有微服务的注册发现</p>
+<h2 id="4-4-swordfish-gateway"><a href="#4-4-swordfish-gateway" class="headerlink" title="4.4 swordfish-gateway"></a>4.4 swordfish-gateway</h2><p>微服务网关，是进入微服务的唯一入口，提供身份验证授权、服务路由、负载均衡等功能</p>
+<h2 id="4-5-swordfish-hystrix-dashboard"><a href="#4-5-swordfish-hystrix-dashboard" class="headerlink" title="4.5 swordfish-hystrix-dashboard"></a>4.5 swordfish-hystrix-dashboard</h2><p>微服务断路器监控面板，用了监控所有微服务的断路器状态信息</p>
+<h2 id="4-6-swordfish-hystrix-turbine"><a href="#4-6-swordfish-hystrix-turbine" class="headerlink" title="4.6 swordfish-hystrix-turbine"></a>4.6 swordfish-hystrix-turbine</h2><p>断路器聚合服务，用来收集所有微服务产生的断路器日志</p>
+<h2 id="4-7-swordfish-zipkin-server"><a href="#4-7-swordfish-zipkin-server" class="headerlink" title="4.7 swordfish-zipkin-server"></a>4.7 swordfish-zipkin-server</h2><p>微服务调用日志跟踪服务，可以查看api调用日志信息、时间信息、服务依赖关系等</p>
+<h2 id="4-8-swordfish-ucms"><a href="#4-8-swordfish-ucms" class="headerlink" title="4.8 swordfish-ucms"></a>4.8 swordfish-ucms</h2><p>用户管理中心，微服务子系统之一，用于统一管理系统用户信息</p>
+<h2 id="4-9-swordfish-cms"><a href="#4-9-swordfish-cms" class="headerlink" title="4.9 swordfish-cms"></a>4.9 swordfish-cms</h2><p>内容管理系统，微服务子系统之一，提供内容管理服务</p>
+<h2 id="4-9-swordfish-sms"><a href="#4-9-swordfish-sms" class="headerlink" title="4.9 swordfish-sms"></a>4.9 swordfish-sms</h2><p>短信服务，微服务单元之一，提供短信发送、审计、计费、日志等服务</p>
+<h2 id="4-10-swordfish-pay"><a href="#4-10-swordfish-pay" class="headerlink" title="4.10 swordfish-pay"></a>4.10 swordfish-pay</h2><p>支付服务，微服务子系统之一，用于提高统一的支付接口</p>
+<h2 id="4-11-swordfish-wechat"><a href="#4-11-swordfish-wechat" class="headerlink" title="4.11 swordfish-wechat"></a>4.11 swordfish-wechat</h2><p>微信服务，微服务单元之一，提供与微信平台的对接</p>
+<h2 id="4-12-swordfish-oss"><a href="#4-12-swordfish-oss" class="headerlink" title="4.12 swordfish-oss"></a>4.12 swordfish-oss</h2><p>对象存储服务，微服务单元之一，提供与主流云存储服务商平台对接</p>
+<h2 id="4-13-swordfish-shop"><a href="#4-13-swordfish-shop" class="headerlink" title="4.13 swordfish-shop"></a>4.13 swordfish-shop</h2><p>电子商城服务，微服务子系统之一，提供电子商城相关服务</p>
+<h1 id="5-开发工具-amp-环境介绍"><a href="#5-开发工具-amp-环境介绍" class="headerlink" title="5. 开发工具&amp;环境介绍"></a>5. 开发工具&amp;环境介绍</h1><h2 id="5-1-开发工具"><a href="#5-1-开发工具" class="headerlink" title="5.1 开发工具"></a>5.1 开发工具</h2><ul>
+<li>IntelliJ IDEA: 开发IDE</li>
+<li>PowerDesigner: 建模工具</li>
+<li>Navicat for MySQL: 数据库客户端</li>
+<li>MySql: 数据库</li>
+<li>Redis: 内存数据库</li>
+<li>RabbitMQ: 消息队列中间件</li>
+<li>Git: 版本管理</li>
+<li>Nginx: 反向代理服务器</li>
+<li>Varnish: HTTP加速器</li>
+</ul>
+<h2 id="5-2-开发环境"><a href="#5-2-开发环境" class="headerlink" title="5.2 开发环境"></a>5.2 开发环境</h2><ul>
+<li>Jdk8+</li>
+<li>Mysql5.7+</li>
+<li>Redis</li>
+<li>Eureka</li>
+<li>RabbitMQ</li>
+</ul>
+<h1 id="6-生产拓扑图"><a href="#6-生产拓扑图" class="headerlink" title="6. 生产拓扑图"></a>6. 生产拓扑图</h1><p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-09.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-09.png" alt="img"></a></p>
+<h1 id="7-开发进度"><a href="#7-开发进度" class="headerlink" title="7. 开发进度"></a>7. 开发进度</h1><h1 id="8-Swordfish-Cloud项目框架搭建"><a href="#8-Swordfish-Cloud项目框架搭建" class="headerlink" title="8. Swordfish Cloud项目框架搭建"></a>8. Swordfish Cloud项目框架搭建</h1><h2 id="8-1-新建空的maven项目"><a href="#8-1-新建空的maven项目" class="headerlink" title="8.1 新建空的maven项目"></a>8.1 新建空的maven项目</h2><p>新建空的maven项目，swordfish-cloud</p>
+<p><a href="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-10.png" target="_blank" rel="noopener"><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/03-10.png" alt="img"></a></p>
+<h2 id="8-2-配置pom-xml"><a href="#8-2-配置pom-xml" class="headerlink" title="8.2 配置pom.xml"></a>8.2 配置pom.xml</h2><p>引入依赖，Spring Cloud及相关库</p>
+<p>[pom.xml]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.eastsunsoft&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;swordfish-cloud&lt;/artifactId&gt;</span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">   </span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;mysql.version&gt;5.1.43&lt;/mysql.version&gt;</span><br><span class="line">        &lt;postgresql.version&gt;42.1.3&lt;/postgresql.version&gt;</span><br><span class="line">        &lt;mybatis.starer.version&gt;1.1.4&lt;/mybatis.starer.version&gt;</span><br><span class="line">        &lt;pagehelper.starer.version&gt;1.1.3&lt;/pagehelper.starer.version&gt;</span><br><span class="line">        &lt;druid.version&gt;1.1.2&lt;/druid.version&gt;</span><br><span class="line">        &lt;jbcrypt.version&gt;0.3m&lt;/jbcrypt.version&gt;</span><br><span class="line">        &lt;jasypt.version&gt;1.12&lt;/jasypt.version&gt;</span><br><span class="line">        &lt;jjwt.version&gt;0.7.0&lt;/jjwt.version&gt;</span><br><span class="line">        &lt;kryo.version&gt;4.0.0&lt;/kryo.version&gt;</span><br><span class="line">        &lt;httpclient.version&gt;4.5.2&lt;/httpclient.version&gt;</span><br><span class="line">        &lt;guava.version&gt;23.0&lt;/guava.version&gt;</span><br><span class="line">        &lt;swagger2.version&gt;2.7.0&lt;/swagger2.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;3.5.1&lt;/version&gt;</span><br><span class="line">                &lt;configuration&gt;</span><br><span class="line">                    &lt;source&gt;1.8&lt;/source&gt;</span><br><span class="line">                    &lt;target&gt;1.8&lt;/target&gt;</span><br><span class="line">                &lt;/configuration&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line"></span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;Dalston.SR3&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;mysql.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;druid-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;druid.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;tk.mybatis&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;mapper-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;mybatis.starer.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;exclusions&gt;</span><br><span class="line">                    &lt;exclusion&gt;</span><br><span class="line">                        &lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;</span><br><span class="line">                        &lt;artifactId&gt;tomcat-jdbc&lt;/artifactId&gt;</span><br><span class="line">                    &lt;/exclusion&gt;</span><br><span class="line">                &lt;/exclusions&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;mybatis-typehandlers-jsr310&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;1.0.2&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;com.fasterxml.jackson.datatype&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;jackson-datatype-jsr310&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;jackson.version&#125;&lt;/version&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;!-- pagehelper --&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;pagehelper-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;pagehelper.starer.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;com.github.ulisesbocchio&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;jasypt-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;jasypt.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;jjwt&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;jjwt.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;com.esotericsoftware&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;kryo&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;kryo.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;com.google.guava&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;guava&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;guava.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;swagger2.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;swagger2.version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;jar&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;compile&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：后续子项目建设将在后续相关章节中介绍</p>
+</blockquote>
+<h1 id="9-其他问题"><a href="#9-其他问题" class="headerlink" title="9. 其他问题"></a>9. 其他问题</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/25/swordfish-cloud-03/" rel="prev" title="Swordfish云平台 - Spring Cloud 03 - Eureka服务注册与发现">
+                Swordfish云平台 - Spring Cloud 03 - Eureka服务注册与发现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="donny.zhang" />
+            
+              <p class="site-author-name" itemprop="name">donny.zhang</p>
+              <p class="site-description motion-element" itemprop="description">java, Spring Cloud, Architecture and may be others.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/netbsder" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="22031495#qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Swodfish-Cloud平台简介"><span class="nav-text">1. Swodfish Cloud平台简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-组织结构"><span class="nav-text">2. 组织结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-技术选型"><span class="nav-text">3. 技术选型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-后端技术"><span class="nav-text">3.1 后端技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-前端技术"><span class="nav-text">3.2 前端技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-微服务单元介绍"><span class="nav-text">4. 微服务单元介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-swordfish-common"><span class="nav-text">4.1 swordfish-common</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-swordfish-config-server"><span class="nav-text">4.2 swordfish-config-server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-swordfish-eureka"><span class="nav-text">4.3 swordfish-eureka</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-swordfish-gateway"><span class="nav-text">4.4 swordfish-gateway</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-swordfish-hystrix-dashboard"><span class="nav-text">4.5 swordfish-hystrix-dashboard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-swordfish-hystrix-turbine"><span class="nav-text">4.6 swordfish-hystrix-turbine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-swordfish-zipkin-server"><span class="nav-text">4.7 swordfish-zipkin-server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-8-swordfish-ucms"><span class="nav-text">4.8 swordfish-ucms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-9-swordfish-cms"><span class="nav-text">4.9 swordfish-cms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-9-swordfish-sms"><span class="nav-text">4.9 swordfish-sms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-10-swordfish-pay"><span class="nav-text">4.10 swordfish-pay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-11-swordfish-wechat"><span class="nav-text">4.11 swordfish-wechat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-12-swordfish-oss"><span class="nav-text">4.12 swordfish-oss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-13-swordfish-shop"><span class="nav-text">4.13 swordfish-shop</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-开发工具-amp-环境介绍"><span class="nav-text">5. 开发工具&环境介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-开发工具"><span class="nav-text">5.1 开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-开发环境"><span class="nav-text">5.2 开发环境</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-生产拓扑图"><span class="nav-text">6. 生产拓扑图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-开发进度"><span class="nav-text">7. 开发进度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-Swordfish-Cloud项目框架搭建"><span class="nav-text">8. Swordfish Cloud项目框架搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-新建空的maven项目"><span class="nav-text">8.1 新建空的maven项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-配置pom-xml"><span class="nav-text">8.2 配置pom.xml</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-其他问题"><span class="nav-text">9. 其他问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">donny.zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

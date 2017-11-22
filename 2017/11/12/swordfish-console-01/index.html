@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 安装nodejs去官网下载LTS长期支持版本，直接安装。 安装完成后，在终端运行： 1node -v 如果打印出版本，则表示安装成功! 1v8.9.1 2. 设置npm安装源为淘宝镜像你可以使用定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm: 1$ npm install -g cnpm ">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swordfish后台管理界面开发-01-开发环境准备">
+<meta property="og:url" content="http://www.donnyzhang.com/2017/11/12/swordfish-console-01/index.html">
+<meta property="og:site_name" content="Donny Zhang&#39;s Blog">
+<meta property="og:description" content="1. 安装nodejs去官网下载LTS长期支持版本，直接安装。 安装完成后，在终端运行： 1node -v 如果打印出版本，则表示安装成功! 1v8.9.1 2. 设置npm安装源为淘宝镜像你可以使用定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm: 1$ npm install -g cnpm --registry=https://registry.npm.taobao.o">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/console/01/01.png">
+<meta property="og:updated_time" content="2017-11-22T12:23:20.337Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="swordfish后台管理界面开发-01-开发环境准备">
+<meta name="twitter:description" content="1. 安装nodejs去官网下载LTS长期支持版本，直接安装。 安装完成后，在终端运行： 1node -v 如果打印出版本，则表示安装成功! 1v8.9.1 2. 设置npm安装源为淘宝镜像你可以使用定制的 cnpm (gzip 压缩支持) 命令行工具代替默认的 npm: 1$ npm install -g cnpm --registry=https://registry.npm.taobao.o">
+<meta name="twitter:image" content="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/console/01/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.donnyzhang.com/2017/11/12/swordfish-console-01/"/>
+
+
+
+
+
+  <title>swordfish后台管理界面开发-01-开发环境准备 | Donny Zhang's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Donny Zhang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Never underestimate your power to change yourself!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.donnyzhang.com/2017/11/12/swordfish-console-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="donny.zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny Zhang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">swordfish后台管理界面开发-01-开发环境准备</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T17:59:37+08:00">
+                2017-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/swordfish后台管理界面开发/" itemprop="url" rel="index">
+                    <span itemprop="name">swordfish后台管理界面开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-安装nodejs"><a href="#1-安装nodejs" class="headerlink" title="1. 安装nodejs"></a>1. 安装nodejs</h1><p>去<a href="https://nodejs.org/en/" target="_blank" rel="noopener">官网</a>下载LTS长期支持版本，直接安装。</p>
+<p>安装完成后，在终端运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br></pre></td></tr></table></figure>
+<p>如果打印出版本，则表示安装成功!</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v8.9.1</span><br></pre></td></tr></table></figure>
+<h1 id="2-设置npm安装源为淘宝镜像"><a href="#2-设置npm安装源为淘宝镜像" class="headerlink" title="2. 设置npm安装源为淘宝镜像"></a>2. 设置npm安装源为淘宝镜像</h1><p>你可以使用定制的 <a href="https://github.com/cnpm/cnpm" target="_blank" rel="noopener">cnpm</a> (gzip 压缩支持) 命令行工具代替默认的 <code>npm</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>或者你直接通过添加 <code>npm</code> 参数 <code>alias</code> 一个新命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> cnpm=<span class="string">"npm --registry=https://registry.npm.taobao.org \</span></span><br><span class="line"><span class="string">--cache=<span class="variable">$HOME</span>/.npm/.cache/cnpm \</span></span><br><span class="line"><span class="string">--disturl=https://npm.taobao.org/dist \</span></span><br><span class="line"><span class="string">--userconfig=<span class="variable">$HOME</span>/.cnpmrc"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Or alias it in .bashrc or .zshrc</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">'\n#alias for cnpm\nalias cnpm="npm --registry=https://registry.npm.taobao.org \</span></span><br><span class="line"><span class="string">  --cache=$HOME/.npm/.cache/cnpm \</span></span><br><span class="line"><span class="string">  --disturl=https://npm.taobao.org/dist \</span></span><br><span class="line"><span class="string">  --userconfig=$HOME/.cnpmrc"'</span> &gt;&gt; ~/.zshrc &amp;&amp; <span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h1 id="3-安装vue-cli"><a href="#3-安装vue-cli" class="headerlink" title="3. 安装vue-cli"></a>3. 安装vue-cli</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-cli -g</span><br></pre></td></tr></table></figure>
+<p>全局安装vue-cli工具。</p>
+<h1 id="4-初始化项目swordfish-console"><a href="#4-初始化项目swordfish-console" class="headerlink" title="4. 初始化项目swordfish-console"></a>4. 初始化项目swordfish-console</h1><p>打开终端，进入swordfish-console目录，执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue init webpack swordfish-console</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注：</strong>项目名不能大写，不能使用中文。<br>这个命令的意思是<strong>初始化一个vue项目</strong>，其中webpack是构建工具，也就是整个项目是<strong>基于webpack</strong>的。其中swordfish-console是整个项目文件夹的名称，这个<strong>文件夹会自动生成在你指定的目录</strong>中。</p>
+</blockquote>
+<p>vue-cli初始化项目选项配置详细解析</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ vue init webpack swordfish-console--------------------- 安装vue-cli,初始化vue项目的命令</span><br><span class="line">? Target directory exists. Continue? (Y/n) y---------------------找到了swordfish-console这个目录是否要继续</span><br><span class="line">? Target directory exists. Continue? Yes</span><br><span class="line">? Project name (swordfish-console)---------------------项目的名称（默认是文件夹的名称），ps：项目的名称不能有大写，不能有中文，否则会报错</span><br><span class="line">? Project name swordfish-console</span><br><span class="line">? Project description (A Vue.js project)---------------------项目描述，可以自己写</span><br><span class="line">? Project description A Vue.js project</span><br><span class="line">? Author (donny)---------------------项目创建者</span><br><span class="line">? Author donny </span><br><span class="line">? Vue build (Use arrow keys)--------------------选择打包方式，有两种方式（runtime和standalone），使用默认即可</span><br><span class="line">? Vue build standalone</span><br><span class="line">? Install vue-router? (Y/n) y--------------------是否安装路由，一般都要安装</span><br><span class="line">? Install vue-router? Yes</span><br><span class="line">? Use ESLint to lint your code? (Y/n) n---------------------是否启用eslint检测规则，这里个人建议选no，因为经常会各种代码报错，新手还是不安装好</span><br><span class="line">? Use ESLint to lint your code? No</span><br><span class="line">? Setup unit tests with Karma + Mocha? (Y/n)--------------------是否安装单元测试</span><br><span class="line">? Setup unit tests with Karma + Mocha? Yes</span><br><span class="line">? Setup e2e tests with Nightwatch? (Y/n) y)--------------------是否安装e2e测试 </span><br><span class="line">? Setup e2e tests with Nightwatch? Yes</span><br><span class="line"></span><br><span class="line">vue-cli · Generated <span class="string">"vuetext1"</span>.</span><br><span class="line">To get started:)--------------------如何开始</span><br><span class="line"> <span class="built_in">cd</span> swordfish-console)--------------------进入你安装的项目</span><br><span class="line"> npm install)--------------------安装项目依赖</span><br><span class="line"> npm run dev)--------------------运行项目</span><br><span class="line">Documentation can be found at https://vuejs-templates.github.io/webpack)</span><br></pre></td></tr></table></figure>
+<p>现在swordfish-console项目已经初步初始化完成了，但是现在还不能成功运行。</p>
+<h1 id="5-安装依赖包"><a href="#5-安装依赖包" class="headerlink" title="5. 安装依赖包"></a>5. 安装依赖包</h1><p>打开终端，进入项目所在目录swordfish-console，执行如下命令，安装相关依赖包。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h1 id="6-运行项目"><a href="#6-运行项目" class="headerlink" title="6. 运行项目"></a>6. 运行项目</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<p>或者通过idea工具打开项目，安装nodejs插件，运行项目。项目会自动打包，并启动浏览器，打开项目页面。</p>
+<p><img src="http://7xnoo1.com1.z0.glb.clouddn.com/donnyblog/swordfish/console/01/01.png" alt=""></p>
+<blockquote>
+<p><strong>注意：</strong>这里是默认服务启动的是本地的8080端口，所以请确保你的8080端口不被别的程序所占用，当有其他vue项目运行的时候，可以使用ctrl+c来中断运行。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/25/swordfish-cloud-04/" rel="next" title="Swordfish云平台 - Spring Cloud 04 - Eureka服务注册与发现高级使用">
+                <i class="fa fa-chevron-left"></i> Swordfish云平台 - Spring Cloud 04 - Eureka服务注册与发现高级使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="donny.zhang" />
+            
+              <p class="site-author-name" itemprop="name">donny.zhang</p>
+              <p class="site-description motion-element" itemprop="description">java, Spring Cloud, Architecture and may be others.</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/netbsder" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="22031495#qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装nodejs"><span class="nav-text">1. 安装nodejs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-设置npm安装源为淘宝镜像"><span class="nav-text">2. 设置npm安装源为淘宝镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-安装vue-cli"><span class="nav-text">3. 安装vue-cli</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-初始化项目swordfish-console"><span class="nav-text">4. 初始化项目swordfish-console</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-安装依赖包"><span class="nav-text">5. 安装依赖包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-运行项目"><span class="nav-text">6. 运行项目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">donny.zhang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
