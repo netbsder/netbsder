@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="语言作为工具，对于我们之重要，正如骏马对骑士的重要，最好的骏马适合于最好的骑士，最好的语言适合于最好的思想。—— 但丁">
+<meta name="keywords" content="重新学习web后端开发,go,http协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重新开始web后端开发-003-了解http请求">
+<meta property="og:url" content="https://www.donnyzhang.com/2019/01/15/uranus-003/index.html">
+<meta property="og:site_name" content="Donny&#39;s Blog">
+<meta property="og:description" content="语言作为工具，对于我们之重要，正如骏马对骑士的重要，最好的骏马适合于最好的骑士，最好的语言适合于最好的思想。—— 但丁">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15874442-c4696abe2b5442cf.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-16T03:15:45.456Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重新开始web后端开发-003-了解http请求">
+<meta name="twitter:description" content="语言作为工具，对于我们之重要，正如骏马对骑士的重要，最好的骏马适合于最好的骑士，最好的语言适合于最好的思想。—— 但丁">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15874442-c4696abe2b5442cf.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+
+
+
+  <link rel="canonical" href="https://www.donnyzhang.com/2019/01/15/uranus-003/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>重新开始web后端开发-003-了解http请求 | Donny's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Donny's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Never underestimate your power to change yourself!</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-resources">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/resources/" rel="section"><i class="menu-item-icon fa fa-fw fa-book"></i> <br>文渊阁</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.donnyzhang.com/2019/01/15/uranus-003/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Donny Zhang">
+      <meta itemprop="description" content="web, java, Spring Boot, Spring Cloud, go, Architecture and may be others.">
+      <meta itemprop="image" content="/images/logo.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Donny's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">重新开始web后端开发-003-了解http请求
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-15 14:19:48" itemprop="dateCreated datePublished" datetime="2019-01-15T14:19:48+08:00">2019-01-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-16 11:15:45" itemprop="dateModified" datetime="2019-01-16T11:15:45+08:00">2019-01-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/重新学习web后端开发/" itemprop="url" rel="index"><span itemprop="name">重新学习web后端开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <a href="/2019/01/15/uranus-003/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/01/15/uranus-003/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/01/15/uranus-003/" class="leancloud_visitors" data-flag-title="重新开始web后端开发-003-了解http请求">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://upload-images.jianshu.io/upload_images/15874442-c4696abe2b5442cf.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="black-and-white-blackboard-business-356043 (1).jpg"></p>
+<blockquote>
+<p>语言作为工具，对于我们之重要，正如骏马对骑士的重要，最好的骏马适合于最好的骑士，最好的语言适合于最好的思想。—— 但丁</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="1-http协议发展"><a href="#1-http协议发展" class="headerlink" title="1. http协议发展"></a>1. http协议发展</h1><p>自1991年发布第一个HTTP版本V0.9标准以来，经过了多年的发展，最新的HTTP版本V2已于2015年发布，同时下一代版本HTTP V3也在制定中。然而，当前使用最为广泛的是1.1版本，同时正在往2.0版本过渡，后续文章中将会介绍HTTP/2的情况，相较之前的版本，2.0版本有非常大的变化。</p>
+<table>
+<thead>
+<tr>
+<th>发布时间</th>
+<th>版本</th>
+<th>特点</th>
+<th>相关文档</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1991</td>
+<td>0.9</td>
+<td>该版本极其简单，只有一个命令<code>GET</code></td>
+<td></td>
+</tr>
+<tr>
+<td>1996</td>
+<td>1.0</td>
+<td>支持任何格式的内容，协议格式变化。新增功能还包括<br>状态码（status code）、多字符集支持、<br>多部分发送（multi-part type）、权限（authorization）、<br>缓存（cache）、内容编码（content encoding）等。</td>
+<td></td>
+</tr>
+<tr>
+<td>1997</td>
+<td>1.1</td>
+<td>持久连接、管道机制、分块传输编码、<br>新增了许多动词方法：<code>PUT</code>、<code>PATCH</code>、<code>HEAD</code>、 <br><code>OPTIONS</code>、<code>DELETE</code> 、请求的头信息新增了<code>Host</code>字段</td>
+<td>RFC 7230 ~ 7235</td>
+</tr>
+<tr>
+<td>2015</td>
+<td>2.0</td>
+<td>二进制协议、多工、数据流、头信息压缩、服务器推送</td>
+<td><a href="https://tools.ietf.org/html/rfc7540" target="_blank" rel="noopener">RFC 7540</a></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>提示：后续如无特殊说明，都以http v1.1为准。</p>
+</blockquote>
+<h1 id="2-http请求"><a href="#2-http请求" class="headerlink" title="2. http请求"></a>2. http请求</h1><p>在上篇文章中，我们发起了一个http请求，下面具体分析一下。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/hello</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: localhost:9800</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"><span class="attribute">Pragma</span>: no-cache</span><br><span class="line"><span class="attribute">Cache-Control</span>: no-cache</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span>: 1</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36</span><br><span class="line"><span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Encoding</span>: gzip, deflate, br</span><br><span class="line"><span class="attribute">Accept-Language</span>: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7</span><br><span class="line"></span><br><span class="line">&lt;上面一行是一个空行CRLF, 同时请忽略本行的说明文字&gt;</span><br></pre></td></tr></table></figure>
+<p>其中，第1行是请求行，第2-10行都是请求头，第11行是一个空行，没有body消息。</p>
+<h2 id="2-1-请求行"><a href="#2-1-请求行" class="headerlink" title="2.1 请求行"></a>2.1 请求行</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/hello</span> HTTP/1.1</span><br></pre></td></tr></table></figure>
+<p>包括三个部分：</p>
+<ol>
+<li>请求方法，这里是GET</li>
+<li>访问资源url，这里是/hello</li>
+<li>http版本，这里是1.1</li>
+</ol>
+<p>上面的请求行，简单理解就是：采用http 1.1协议，向/hello发送一个GET请求，希望获取到该url对应的资源。</p>
+<p>这里，我们要重点了解下<strong>请求方法</strong>。有过开发经验，尤其是restful api接口开发经验的朋友，应该比较了解常用的请求方法。比如：GET、POST、PUT、DELETE等。</p>
+<blockquote>
+<ul>
+<li>关于restful api接口的规范和实践使用，会在后续文章中具体介绍</li>
+</ul>
+</blockquote>
+<h3 id="2-1-1-请求方法（9种）"><a href="#2-1-1-请求方法（9种）" class="headerlink" title="2.1.1 请求方法（9种）"></a>2.1.1 请求方法（9种）</h3><ul>
+<li>GET - 可以理解为查询行为，获取指定的资源，一般用来获取数据。</li>
+<li>POST - 可以理解为新增行为。服务端会根据请求的内容，在服务器上创建相应的资源。</li>
+<li>PUT - 可以理解为修改行为。服务端会根据请求的内容，如果对应的URI存在，则进行修改。如果不存在，则进行创建。（可选）</li>
+<li>DELETE - 可以理解为删除行为。服务端会删除对应的URI资源。 </li>
+</ul>
+<blockquote>
+<p>上述四种方法，是在做后端开发中会经常用到的。我们常说的“CRUD-增删改查”，就可以简单一一对应到相应的方法上。</p>
+</blockquote>
+<ul>
+<li>HEAD - 该方法和GET类似，只是服务器仅返回http状态行和头部信息，不会返回body内容。可以用于只需要获取相应资源meta信息，而不需要获取整个资源内容。</li>
+</ul>
+<blockquote>
+<p>Tip：该方法可在实践中用于“服务探活”或者用于心跳机制中的”心跳包“。</p>
+</blockquote>
+<ul>
+<li>OPTIONS - 该方法可以返回针对特定URI所支持的http方法。常用于检查web服务针对特定资源所提供的功能。后续我们还会提到它，用于<strong>解决前端跨域</strong>问题。</li>
+<li>CONNECT - 该方法用于将请求转换为透明的tcp/ip隧道。常用于HTTPS。</li>
+<li>PATCH - 该方法可用于更新特定资源的部分内容。相对很少使用。</li>
+<li>TRACE - 该方法使服务器原样返回任意客户端请求的任何内容。主要用于协议调试。存在安全问题，建议服务端关闭，不要使用。</li>
+</ul>
+<h4 id="2-1-1-1-方法特性-安全性"><a href="#2-1-1-1-方法特性-安全性" class="headerlink" title="2.1.1.1 方法特性 - 安全性"></a>2.1.1.1 方法特性 - 安全性</h4><p>某些方法在设计时就被定义为”安全方法”。所谓的安全方法是指用于检索数据，不会改变服务资源的状态。专业点的说法就是不会产生”副作用“(side effects)。比如：get方法不会改变资源的内容，是安全的，而delete方法会删除特定的资源，是不安全的。</p>
+<h4 id="2-1-1-2-方法特性-幂等性"><a href="#2-1-1-2-方法特性-幂等性" class="headerlink" title="2.1.1.2 方法特性 - 幂等性"></a>2.1.1.2 方法特性 - 幂等性</h4><p>某些方法在设计时就被定义为幂等的。所谓幂等是指相同的请求，无论调用多少次，都会产生一样的作用。比如：DELETE。对于任一个DELETE请求，无论执行多少次，其产生的作用是一样的。也就是说删除某个特定资源一次，和删除多次，其对资源的作用是一样的。</p>
+<blockquote>
+<p>Tip：要注意区分安全性和幂等性的区别。安全性是强调不会产生副作用，而幂等性强调的是多次请求所产生的作用是一样的。</p>
+</blockquote>
+<h4 id="2-1-1-3-方法小结"><a href="#2-1-1-3-方法小结" class="headerlink" title="2.1.1.3 方法小结"></a>2.1.1.3 方法小结</h4><blockquote>
+<p> 来自维基百科的表格，略作调整</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>RFC文档</th>
+<th>Request has Body</th>
+<th>Response has Body</th>
+<th>安全</th>
+<th>幂等</th>
+<th>可缓存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>Optional</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>Optional</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>CONNECT</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc5789" target="_blank" rel="noopener">5789</a></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>TRACE</td>
+<td>RFC <a href="https://tools.ietf.org/html/rfc7231" target="_blank" rel="noopener">7231</a></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：POST方法不是幂等的。在接口开发时，要处理可能会出现的幂等问题。关于接口幂等问题的处理，可以参考后续的文章。PUT和DELETE方法是幂等的，GET也是。</p>
+</blockquote>
+<h3 id="2-1-2-访问资源"><a href="#2-1-2-访问资源" class="headerlink" title="2.1.2  访问资源"></a>2.1.2  访问资源</h3><p>/hello，为该GET请求的资源地址。和头部区域中的HOST部分一起确定唯一的资源地址。</p>
+<h3 id="2-1-3-协议版本号"><a href="#2-1-3-协议版本号" class="headerlink" title="2.1.3 协议版本号"></a>2.1.3 协议版本号</h3><p>HTTP/1.1 - 表明使用的http协议版本是1.1</p>
+<h2 id="2-2-请求头部"><a href="#2-2-请求头部" class="headerlink" title="2.2 请求头部"></a>2.2 请求头部</h2><p>请求头部位于请求行之后，使用key-value的格式，并以CRLF结尾。也就是说每行都是一个键值对。请求头可以包括多个键值对。最后使用一个空行，来表明整个请求头的结束。</p>
+<p>标准请求头字段有36个，非标准的有十多个。作为后端开发人员，需要了解一些常见的请求头。我们首先介绍下’hello,world’中的请求头，后续还会出现更多的请求头字段时再一一说明。</p>
+<blockquote>
+<p>注意：请求头字段名是大小写不敏感的，而方法名都是大写的，是大小写敏感的。</p>
+</blockquote>
+<h3 id="2-2-1-“hello-world”-请求头"><a href="#2-2-1-“hello-world”-请求头" class="headerlink" title="2.2.1 “hello, world” 请求头"></a>2.2.1 “hello, world” 请求头</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+<th>例子</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Host</td>
+<td>主机地址，包括域名和端口号。(用于支持虚拟主机)</td>
+<td>Host: localhost:9800</td>
+<td>HTTP/1.1是强制必须要有的。HTTP/2 将不使用该字段。</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>当前连接控制选项</td>
+<td>Connection: keep-alive</td>
+<td>HTTP/1.1默认是keep-alive。HTTP/2 将不使用该字段。</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>http客户端名称</td>
+<td>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) <br>AppleWebKit/537.36 (KHTML, like Gecko) <br>Chrome/69.0.3497.100 Safari/537.36</td>
+<td>服务端可根据此字段了解客户端的类型。常用于访问统计。</td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>可接受的响应内容媒体格式</td>
+<td>text/html,application/xhtml+xml,application/xml;<br>q=0.9,image/webp,image/apng,<em>/</em>;q=0.8</td>
+<td></td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>可接受的语言</td>
+<td>Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7</td>
+<td></td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>可接受的数据压缩编码格式</td>
+<td>Accept-Encoding: gzip, deflate, br</td>
+<td>可用于提升数据传输性能</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>特殊指令,常用于进行缓存控制</td>
+<td>Pragma: no-cache</td>
+<td>支持HTTP/1.0，HTTP/1.1</td>
+</tr>
+<tr>
+<td>Cache-Control</td>
+<td>缓存控制指令</td>
+<td>Cache-Control: no-cache</td>
+<td>支持HTTP/1.1</td>
+</tr>
+<tr>
+<td>Upgrade-Insecure-Requests</td>
+<td>告诉服务端，建议从http升级到https。常用于过度阶段。</td>
+<td>Upgrade-Insecure-Requests: 1</td>
+<td>非标准字段</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Tip:</p>
+<ul>
+<li>关于Connection的keep-alive，详见后续文章。</li>
+</ul>
+</blockquote>
+<h2 id="2-3-消息体-body部分"><a href="#2-3-消息体-body部分" class="headerlink" title="2.3 消息体-body部分"></a>2.3 消息体-body部分</h2><p>该GET请求中，消息体部分为空。后续出现具有body部分的请求时，我们会具体分析。</p>
+<h1 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h1><p>本节我们主要介绍了http协议请求部分的基本内容。当然这只是http协议的一部分，也是作为web后端开发人员需要掌握的基本知识。在后面的文章中，会逐渐展开http协议的相关内容。希望通过具体项目开发实践和所使用的技术背后的基础知识相结合，能够给大家带来收获。下一节，我们将分析下http回应相关的内容。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Donny Zhang 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Donny Zhang 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/重新学习web后端开发/" rel="tag"># 重新学习web后端开发</a>
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+            <a href="/tags/http协议/" rel="tag"># http协议</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/14/uranus-002/" rel="next" title="重新开始web后端开发-002-hello, world">
+                <i class="fa fa-chevron-left"></i> 重新开始web后端开发-002-hello, world
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/logo.gif" alt="Donny Zhang">
+            
+              <p class="site-author-name" itemprop="name">Donny Zhang</p>
+              <p class="site-description motion-element" itemprop="description">web, java, Spring Boot, Spring Cloud, go, Architecture and may be others.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/netbsder" title="GitHub &rarr; https://github.com/netbsder" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:22031495@qq.com" title="E-Mail &rarr; mailto:22031495@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-http协议发展"><span class="nav-text">1. http协议发展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-http请求"><span class="nav-text">2. http请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-请求行"><span class="nav-text">2.1 请求行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-请求方法（9种）"><span class="nav-text">2.1.1 请求方法（9种）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-1-方法特性-安全性"><span class="nav-text">2.1.1.1 方法特性 - 安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-2-方法特性-幂等性"><span class="nav-text">2.1.1.2 方法特性 - 幂等性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-3-方法小结"><span class="nav-text">2.1.1.3 方法小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-访问资源"><span class="nav-text">2.1.2  访问资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-协议版本号"><span class="nav-text">2.1.3 协议版本号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-请求头部"><span class="nav-text">2.2 请求头部</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-“hello-world”-请求头"><span class="nav-text">2.2.1 “hello, world” 请求头</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-消息体-body部分"><span class="nav-text">2.3 消息体-body部分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-小结"><span class="nav-text">3. 小结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Donny Zhang</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">6k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">7 分钟</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: true,
+    notify: false,
+    appId: 'Kznr7zakv4psCgNH8tPefUrL-gzGzoHsz',
+    appKey: '6OTlTormh40L00b43GD76eru',
+    placeholder: '评论',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log(`Failed to save Visitor num, with error message: ${responseJSON.error}`);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log(`LeanCloud Counter Error: ${responseJSON.code} ${responseJSON.error}`);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'Kznr7zakv4psCgNH8tPefUrL-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'Kznr7zakv4psCgNH8tPefUrL-gzGzoHsz',
+                'X-LC-Key': '6OTlTormh40L00b43GD76eru',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+  <script>
+    
+    
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
