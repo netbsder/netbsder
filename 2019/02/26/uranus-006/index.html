@@ -100,27 +100,28 @@
 
 
 
-  <meta name="description" content="UNIX is very simple, it just needs a genius to understand its simplicity.  ——  Dennis M.Ritchie 作者刚开始学习编程的时候，学习的就是C语言。写的第一个入门例子就是在控制台上打印一句“hello, world”。后来陆续接触了php、java、python、go等语言，发现入门第一个例子都是打印”he">
-<meta name="keywords" content="重新学习web后端开发,go,http协议">
+  <meta name="description" content="知己知彼，百战不殆。- 《孙子兵法》  1. 了解服务监控为了能够及时了解服务线上运行时的状态，同时能够在服务处于异常状态时能够进行有效的通知报警，我们通常需要对服务进行监控管理。随着分布式微服务架构的流行，服务监控已经是现代web后端开发体系中，非常重要的组成部分。 通常服务监控系统包括如下几个部分：  数据提供方 产生数据的终端，比如某web后端服务。  数据采集器 主要用来采集数据，使用">
+<meta name="keywords" content="重新学习web后端开发,go,服务监控管理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重新学习web后端开发-002-hello, world">
-<meta property="og:url" content="https://www.donnyzhang.com/2019/01/14/uranus-002/index.html">
+<meta property="og:title" content="重新学习web后端开发-006-了解服务监控">
+<meta property="og:url" content="https://www.donnyzhang.com/2019/02/26/uranus-006/index.html">
 <meta property="og:site_name" content="Donny Zhang&#39;s Blog">
-<meta property="og:description" content="UNIX is very simple, it just needs a genius to understand its simplicity.  ——  Dennis M.Ritchie 作者刚开始学习编程的时候，学习的就是C语言。写的第一个入门例子就是在控制台上打印一句“hello, world”。后来陆续接触了php、java、python、go等语言，发现入门第一个例子都是打印”he">
+<meta property="og:description" content="知己知彼，百战不殆。- 《孙子兵法》  1. 了解服务监控为了能够及时了解服务线上运行时的状态，同时能够在服务处于异常状态时能够进行有效的通知报警，我们通常需要对服务进行监控管理。随着分布式微服务架构的流行，服务监控已经是现代web后端开发体系中，非常重要的组成部分。 通常服务监控系统包括如下几个部分：  数据提供方 产生数据的终端，比如某web后端服务。  数据采集器 主要用来采集数据，使用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15874442-7d99745d99d26910.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-02-26T09:14:09.220Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15874442-60fa13c8cef07f61.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15874442-bfd244c59e285ee4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-02-26T09:16:40.780Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="重新学习web后端开发-002-hello, world">
-<meta name="twitter:description" content="UNIX is very simple, it just needs a genius to understand its simplicity.  ——  Dennis M.Ritchie 作者刚开始学习编程的时候，学习的就是C语言。写的第一个入门例子就是在控制台上打印一句“hello, world”。后来陆续接触了php、java、python、go等语言，发现入门第一个例子都是打印”he">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15874442-7d99745d99d26910.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="重新学习web后端开发-006-了解服务监控">
+<meta name="twitter:description" content="知己知彼，百战不殆。- 《孙子兵法》  1. 了解服务监控为了能够及时了解服务线上运行时的状态，同时能够在服务处于异常状态时能够进行有效的通知报警，我们通常需要对服务进行监控管理。随着分布式微服务架构的流行，服务监控已经是现代web后端开发体系中，非常重要的组成部分。 通常服务监控系统包括如下几个部分：  数据提供方 产生数据的终端，比如某web后端服务。  数据采集器 主要用来采集数据，使用">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/15874442-60fa13c8cef07f61.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
 
 
 
-  <link rel="canonical" href="https://www.donnyzhang.com/2019/01/14/uranus-002/">
+  <link rel="canonical" href="https://www.donnyzhang.com/2019/02/26/uranus-006/">
 
 
 
@@ -130,7 +131,7 @@
   };
 </script>
 
-  <title>重新学习web后端开发-002-hello, world | Donny Zhang's Blog</title>
+  <title>重新学习web后端开发-006-了解服务监控 | Donny Zhang's Blog</title>
   
 
 
@@ -350,7 +351,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.donnyzhang.com/2019/01/14/uranus-002/">
+    <link itemprop="mainEntityOfPage" href="https://www.donnyzhang.com/2019/02/26/uranus-006/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Donny Zhang">
@@ -367,7 +368,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">重新学习web后端开发-002-hello, world
+          <h1 class="post-title" itemprop="name headline">重新学习web后端开发-006-了解服务监控
 
               
             
@@ -393,24 +394,12 @@
                 
               
 
-              <time title="创建时间：2019-01-14 12:01:17" itemprop="dateCreated datePublished" datetime="2019-01-14T12:01:17+08:00">2019-01-14</time>
+              <time title="创建时间：2019-02-26 11:38:36 / 修改时间：17:16:40" itemprop="dateCreated datePublished" datetime="2019-02-26T11:38:36+08:00">2019-02-26</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-26 17:14:09" itemprop="dateModified" datetime="2019-02-26T17:14:09+08:00">2019-02-26</time>
               
             
           </span>
@@ -445,8 +434,8 @@
                   <i class="fa fa-comment-o"></i>
                 </span>
             
-                <a href="/2019/01/14/uranus-002/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/01/14/uranus-002/" itemprop="commentCount"></span>
+                <a href="/2019/02/26/uranus-006/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/02/26/uranus-006/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -454,7 +443,7 @@
 
           
           
-            <span id="/2019/01/14/uranus-002/" class="leancloud_visitors" data-flag-title="重新学习web后端开发-002-hello, world">
+            <span id="/2019/02/26/uranus-006/" class="leancloud_visitors" data-flag-title="重新学习web后端开发-006-了解服务监控">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -479,7 +468,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.2k</span>
+                <span title="本文字数">2.4k</span>
               
 
               
@@ -493,7 +482,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">4 分钟</span>
+                <span title="阅读时长">3 分钟</span>
               
             </div>
           
@@ -513,71 +502,131 @@
       
 
       
-        <p><img src="https://upload-images.jianshu.io/upload_images/15874442-7d99745d99d26910.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="javi-via-flickr-620x354.jpg"></p>
+        <p><img src="https://upload-images.jianshu.io/upload_images/15874442-60fa13c8cef07f61.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="thumb"></p>
 <blockquote>
-<p>UNIX is very simple, it just needs a genius to understand its simplicity.  ——  Dennis M.Ritchie</p>
-<p>作者刚开始学习编程的时候，学习的就是C语言。写的第一个入门例子就是在控制台上打印一句“hello, world”。后来陆续接触了php、java、python、go等语言，发现入门第一个例子都是打印”hello, world”。这已经成为了业内的惯例。那么我们也从这里开始。</p>
+<p>知己知彼，百战不殆。- 《孙子兵法》</p>
 </blockquote>
-<a id="more"></a>
-<h2 id="1-第一个接口"><a href="#1-第一个接口" class="headerlink" title="1. 第一个接口"></a>1. 第一个接口</h2><p>话不多说，直接上代码</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/gin-gonic/gin"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	r := gin.Default()</span><br><span class="line">	r.GET(<span class="string">"/hello"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">		c.String(<span class="number">200</span>, <span class="string">"hello, world"</span>)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">    r.GET(<span class="string">"/helloJson"</span>, <span class="function"><span class="keyword">func</span><span class="params">(c *gin.Context)</span></span> &#123;</span><br><span class="line">        c.JSON(<span class="number">200</span>, gin.H&#123;<span class="string">"code"</span>: <span class="number">0</span>, <span class="string">"msg"</span>: <span class="string">""</span>, <span class="string">"body"</span>: <span class="string">"hello, world"</span>&#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">	r.Run(<span class="string">":9800"</span>) <span class="comment">// listen and serve on 0.0.0.0:9800</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码非常简洁明了，运行后将会在机器上绑定9800端口，映射了url “/hello”和”/helloJson”，当通过浏览器访=问”/hello”时，将在页面上显示hello, world，当访问”/helloJson”时，则会显示一个json串</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"body"</span>:<span class="string">"hello, world"</span>,<span class="attr">"code"</span>:<span class="number">0</span>,<span class="attr">"msg"</span>:<span class="string">""</span>&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Tip: </p>
+<h2 id="1-了解服务监控"><a href="#1-了解服务监控" class="headerlink" title="1. 了解服务监控"></a>1. 了解服务监控</h2><p>为了能够及时了解服务线上运行时的状态，同时能够在服务处于异常状态时能够进行有效的通知报警，我们通常需要对服务进行监控管理。随着分布式微服务架构的流行，服务监控已经是现代web后端开发体系中，非常重要的组成部分。</p>
+<p>通常服务监控系统包括如下几个部分：</p>
 <ul>
-<li>这两个接口返回的区别一个返回的是字符串，一个返回的是json串。</li>
-<li>这里使用了go著名的web开源框架<a href="https://github.com/gin-gonic/gin" target="_blank" rel="noopener">gin</a>，它简洁小巧且性能不错。</li>
-<li>go版本是1.11，没有使用任何第三方包管理。当前go版本开始内置包管理工具：go module，但还不是非常成熟，期待后续版本能较好的解决包管理问题。因此，你需要先通过go get安装gin包。具体请参考gin文档。</li>
-<li>可以直接clone git上的代码，<a href="https://github.com/netbsder/uranus-service/tree/feature/001-hello_world" target="_blank" rel="noopener">点此查看</a>，分支为feature/001-hello_world</li>
+<li><p>数据提供方</p>
+<p>产生数据的终端，比如某web后端服务。</p>
+</li>
+<li><p>数据采集器</p>
+<p>主要用来采集数据，使用push或者pull的方式，从终端收集数据</p>
+</li>
+<li><p>数据存储</p>
+<p>主要将采集过来的数据以某种方式（通常存储到数据库）存储起来，供数据展示分析系统使用。</p>
+</li>
+<li><p>数据展示分析系统</p>
+<p>主要是对存储中的监控数据进行分析处理，并提供报警等功能。</p>
+</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/15874442-bfd244c59e285ee4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="服务监控系统简单结构图"></p>
+<p>对于web后端开发人员，在开发服务时，就应考虑到服务监控的问题。我们可以采用比较流行的服务监控系统，帮助我们快速搭建服务监控平台。一般来说服务监控系统会集成了数据采集、数据存储、数据展示分析等功能。而后端开发人员则主要集中于数据提供方如何产生数据这部分的功能。</p>
+<blockquote>
+<p>推荐使用telegraf(数据采集) + influxdb(数据存储) + grafana(数据展示)组合，其中：</p>
+<ul>
+<li><a href="https://docs.influxdata.com/telegraf/v1.9/" target="_blank" rel="noopener">telegraf</a>：作为数据采集器，是一个插件驱动的服务器代理，用于收集指标数据。</li>
+<li><a href="https://www.influxdata.com/" target="_blank" rel="noopener">influxdb</a>：作为数据仓库，是一款优秀的<strong>时间序列数据库</strong>，使用Go语言编写。</li>
+<li><a href="https://grafana.com/" target="_blank" rel="noopener">grafana</a>：作为服务监控系统界面，是一款高颜值且功能强大的开源可视化工具。</li>
 </ul>
 </blockquote>
-<h2 id="2-看看背后发生的事"><a href="#2-看看背后发生的事" class="headerlink" title="2. 看看背后发生的事"></a>2. 看看背后发生的事</h2><h3 id="2-1-“-hello”-web交互过程"><a href="#2-1-“-hello”-web交互过程" class="headerlink" title="2.1 “/hello” web交互过程"></a>2.1 “/hello” web交互过程</h3><p>打开chrome浏览器，并在地址栏输入：<a href="http://localhost:9800/hello" target="_blank" rel="noopener">http://localhost:9800/hello</a> ， 页面将会显示hello, world。实际上，我们向服务器9800端口发起了一个http请求，同时服务器返回了一个http响应。信息就在这类似”一问一答“的方式下进行传输交互。我们也可以使用chrome开发者工具，看一看具体传输的数据内容。</p>
-<h4 id="2-1-1-http请求"><a href="#2-1-1-http请求" class="headerlink" title="2.1.1 http请求"></a>2.1.1 http请求</h4><p>首先我们发起了了一个http请求，采用GET请求的方式，请求<a href="http://localhost:9800/hello" target="_blank" rel="noopener">http://localhost:9800/hello</a> ，请求的数据如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/hello</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: localhost:9800</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"><span class="attribute">Pragma</span>: no-cache</span><br><span class="line"><span class="attribute">Cache-Control</span>: no-cache</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span>: 1</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36</span><br><span class="line"><span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Encoding</span>: gzip, deflate, br</span><br><span class="line"><span class="attribute">Accept-Language</span>: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7</span><br><span class="line"></span><br><span class="line">&lt;上面一行是一个空行CRLF, 同时请忽略本行的说明文字&gt;</span><br></pre></td></tr></table></figure>
-<p>根据http v1.1协议规范[<a href="https://tools.ietf.org/html/rfc7230" target="_blank" rel="noopener">RFC 7230</a>]，请求消息的格式为：</p>
+<h2 id="2-数据采集方式"><a href="#2-数据采集方式" class="headerlink" title="2. 数据采集方式"></a>2. 数据采集方式</h2><h3 id="2-1-push方式"><a href="#2-1-push方式" class="headerlink" title="2.1 push方式"></a>2.1 push方式</h3><p>推方式，即数据提供方（如上图中的服务A），主动将自身运行状态信息（如内存使用信息、线程信息、GC信息等）进行上报。</p>
+<p>常见有两种方式：</p>
 <ul>
-<li>请求行 (例如: GET /hello HTTP/1.1)</li>
-<li>请求头 (例如: Host: localhost:9800)</li>
-<li>一个空行，由CRLF，即回车(CR, ASCII 13, \r) 换行(LF, ASCII 10, \n)组成。</li>
-<li>可选body消息</li>
-</ul>
+<li><p>一种是数据提供方将数据push到数据采集器，一般数据采集器会提供socket通道，通过tcp/udp的方式来传输数据。</p>
+</li>
+<li><p>一种是数据提供方将数据push到消息中间件（如kafka、rabbitmq等），数据采集器通过监听消息队列获取数据。</p>
 <blockquote>
-<p>Tip:</p>
-<ul>
-<li>请求行和请求头必须要以CRLF结尾。</li>
-<li>空行必须只包含CRLF，不能包含其它字符包括空格。</li>
-<li>除去可选body消息外，其余三个部分都是必须要有的。</li>
-</ul>
+<p>这种方式可以通过消息中间件进行对数据提供方和数据采集器进行解耦，比较适合用于大型的系统中。</p>
 </blockquote>
-<p>后续将会详细介绍http请求的具体内容。</p>
-<h4 id="2-1-2-http响应"><a href="#2-1-2-http响应" class="headerlink" title="2.1.2 http响应"></a>2.1.2 http响应</h4><p>服务接收到请求后返回响应，响应消息如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span>: text/plain; charset=utf-8</span><br><span class="line"><span class="attribute">Date</span>: Tue, 15 Jan 2019 02:56:59 GMT</span><br><span class="line"><span class="attribute">Content-Length</span>: 12</span><br><span class="line"></span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
-<p>根据http v1.1协议规范，响应消息格式为：</p>
-<ul>
-<li>状态行，包括状态码和简单描述 (例如：HTTP/1.1 200 OK)</li>
-<li>响应头 (例如：Content-Type: text/plain; charset=utf-8)</li>
-<li>一个空行</li>
-<li>可选body消息</li>
+</li>
 </ul>
+<h3 id="2-2-pull方式"><a href="#2-2-pull方式" class="headerlink" title="2.2 pull方式"></a>2.2 pull方式</h3><p>拉方式，即由数据采集器进行定时轮询从数据提供方进行拉取，要求数据提供方提供相应的接口供数据采集器获取数据。一般来说，数据提供方可以提供基于HTTP Restful接口。</p>
+<h3 id="2-3-如何选择？"><a href="#2-3-如何选择？" class="headerlink" title="2.3 如何选择？"></a>2.3 如何选择？</h3><p>push方式和pull方式各有其优点，使用何种方式应该集合具体业务场景、团队情况等方面综合而定。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>pull</th>
+<th>push</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实时性</td>
+<td>一般，取决于定时周期</td>
+<td>较好</td>
+</tr>
+<tr>
+<td>数据提供方</td>
+<td>被动上报数据，无需感知数据采集器的存在</td>
+<td>主动上报数据，需要主动感知数据采集器或消息中间件</td>
+</tr>
+<tr>
+<td>数据采集器</td>
+<td>主动拉取数据，需要感知数据提供方的存在</td>
+<td>被动接收数据，无需感知数据提供方的存在</td>
+</tr>
+<tr>
+<td>通常实现</td>
+<td>短连接，如：http接口</td>
+<td>长连接，如：tcp</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-uranus-service-服务监控模块"><a href="#3-uranus-service-服务监控模块" class="headerlink" title="3. uranus-service 服务监控模块"></a>3. <a href="https://github.com/netbsder/uranus-service" target="_blank" rel="noopener">uranus-service</a> 服务监控模块</h2><p>该服务监控模块，对外提供基于http restful接口，供数据采集器通过pull的方式收集数据。主要参考了java spring boot框架的actuaotr模块，提供了如下接口：</p>
+<table>
+<thead>
+<tr>
+<th>HTTP方法</th>
+<th>接口地址</th>
+<th>描述</th>
+<th>是否需授权</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/health</td>
+<td>查看应用健康指标</td>
+<td>否，如需查看详细信息，则需要授权</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/info</td>
+<td>查看应用信息</td>
+<td>否</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/metrics</td>
+<td>查看应用指标信息</td>
+<td>是</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/metrics/{name}</td>
+<td>查看具体指标</td>
+<td>是</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/shutdown</td>
+<td>关闭应用</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-1-health接口"><a href="#3-1-health接口" class="headerlink" title="3.1 health接口"></a>3.1 health接口</h3><p>该接口用于查看应用健康指标。</p>
+<p>当未通过授权时，只能查看基本信息，例如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"status"</span>: <span class="string">"up"</span>,</span><br><span class="line">    <span class="attr">"statusCode"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当通过授权(http basic auth)时，可以查看详细信息，例如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"details"</span>: &#123;</span><br><span class="line">        <span class="attr">"disk"</span>: &#123;</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"up"</span>,</span><br><span class="line">            <span class="attr">"details"</span>: &#123;</span><br><span class="line">                <span class="attr">"free"</span>: <span class="number">930381459456</span>,</span><br><span class="line">                <span class="attr">"threshold"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"total"</span>: <span class="number">1127625711616</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"mem"</span>: &#123;</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"up"</span>,</span><br><span class="line">            <span class="attr">"details"</span>: &#123;</span><br><span class="line">                <span class="attr">"free"</span>: <span class="number">8645541888</span>,</span><br><span class="line">                <span class="attr">"total"</span>: <span class="number">17035321344</span>,</span><br><span class="line">                <span class="attr">"used"</span>: <span class="number">8389779456</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ....</span><br><span class="line">    &#125;,</span><br><span class="line">    "status": "up",</span><br><span class="line">    "statusCode": 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><p>本节主要介绍了后端开发中需要了解的服务监控相关的知识、数据采集方式以及uranus-service服务监控模块的基本情况。下一节我们将重点关注health接口的实现中需要后端人员了解的http basic auth机制。</p>
 <blockquote>
-<p>Tip:</p>
-<ul>
-<li>状态行和响应头必须要以CRLF结尾。</li>
-<li>空行必须只包含CRLF，不能包含其它字符包括空格。</li>
-</ul>
-</blockquote>
-<h3 id="2-2-“-helloJson”-web交互过程"><a href="#2-2-“-helloJson”-web交互过程" class="headerlink" title="2.2 “/helloJson” web交互过程"></a>2.2 “/helloJson” web交互过程</h3><p>该接口返回的数据和”/hello”主要区别就是返回内容的格式不一样，一个是纯文本字符串，一个是json字符串。通过分析下http数据的交互，来了解下两者之间的区别。</p>
-<h4 id="2-2-1-http请求"><a href="#2-2-1-http请求" class="headerlink" title="2.2.1 http请求"></a>2.2.1 http请求</h4><p>请求的部分除了GET部分，其它都一样</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/helloJson</span> HTTP/1.1</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-2-http响应"><a href="#2-2-2-http响应" class="headerlink" title="2.2.2 http响应"></a>2.2.2 http响应</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Length</span>: 41</span><br><span class="line"><span class="attribute">Content-Type</span>: application/json; charset=utf-8</span><br><span class="line"><span class="attribute">Date</span>: Wed, 16 Jan 2019 16:48:50 GMT</span><br><span class="line"></span><br><span class="line">&#123;"body":"hello, world","code":0,"msg":""&#125;</span><br></pre></td></tr></table></figure>
-<p>响应的部分主要区别在响应头的字段Content-Type的值不一样。这里是：application/json; charset=utf-8，意思是告诉客户端返回的数据内容格式为json，且编码为utf-8</p>
-<blockquote>
-<p>Tip: 当今主流的web后端开发，随着前后端分离，主要就是接口开发，其主要使用的数据格式是JSON。无论从可读性，支持语言广泛、客户端易于解析等方面来看，JSON是现在主流的数据交换格式之一。</p>
-</blockquote>
-<h2 id="3-小结"><a href="#3-小结" class="headerlink" title="3. 小结"></a>3. 小结</h2><p>本节通过简单的接口实例，介绍了背后http传输的基本信息。下一节开始，我们将详细介绍作为web后端开发人员，必须要了解掌握的http协议的内容，以及在正式项目实践中所需要关注的细节。</p>
-<blockquote>
-<p>本文为作者原创作品，属于《重新学习web后端开发》专辑中的一篇，转载时请备注作者信息及来源。本文原文地址：<a href="https://www.donnyzhang.com/2019/01/14/uranus-002/">https://www.donnyzhang.com/2019/01/14/uranus-002/</a></p>
+<p>本文为作者原创作品，属于《<a href="https://www.donnyzhang.com/categories/%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0web%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">重新学习web后端开发</a>》专辑中的一篇，转载时请备注作者信息及来源。本文原文地址：<a href="https://www.donnyzhang.com/2019/02/26/uranus-006/">https://www.donnyzhang.com/2019/02/26/uranus-006/</a></p>
 </blockquote>
 
       
@@ -635,7 +684,7 @@
           
             <a href="/tags/go/" rel="tag"># go</a>
           
-            <a href="/tags/http协议/" rel="tag"># http协议</a>
+            <a href="/tags/服务监控管理/" rel="tag"># 服务监控管理</a>
           
         </div>
       
@@ -648,8 +697,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/14/uranus-001/" rel="next" title="重新学习web后端开发-001-写在前面的话">
-                <i class="fa fa-chevron-left"></i> 重新学习web后端开发-001-写在前面的话
+              <a href="/2019/02/20/uranus-005/" rel="next" title="重新学习web后端开发-005-了解前后端分离开发模式">
+                <i class="fa fa-chevron-left"></i> 重新学习web后端开发-005-了解前后端分离开发模式
               </a>
             
           </div>
@@ -657,10 +706,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/01/15/uranus-003/" rel="prev" title="重新学习web后端开发-003-了解http请求">
-                重新学习web后端开发-003-了解http请求 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -836,7 +881,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-第一个接口"><span class="nav-text">1. 第一个接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-看看背后发生的事"><span class="nav-text">2. 看看背后发生的事</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-“-hello”-web交互过程"><span class="nav-text">2.1 “/hello” web交互过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-http请求"><span class="nav-text">2.1.1 http请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-http响应"><span class="nav-text">2.1.2 http响应</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-“-helloJson”-web交互过程"><span class="nav-text">2.2 “/helloJson” web交互过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-http请求"><span class="nav-text">2.2.1 http请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-http响应"><span class="nav-text">2.2.2 http响应</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-小结"><span class="nav-text">3. 小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-了解服务监控"><span class="nav-text">1. 了解服务监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-数据采集方式"><span class="nav-text">2. 数据采集方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-push方式"><span class="nav-text">2.1 push方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-pull方式"><span class="nav-text">2.2 pull方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-如何选择？"><span class="nav-text">2.3 如何选择？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-uranus-service-服务监控模块"><span class="nav-text">3. uranus-service 服务监控模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-health接口"><span class="nav-text">3.1 health接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-小结"><span class="nav-text">4. 小结</span></a></li></ol></div>
             
 
           </div>
