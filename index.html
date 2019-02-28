@@ -393,12 +393,24 @@
                 
               
 
-              <time title="创建时间：2019-02-26 11:38:36 / 修改时间：17:16:40" itemprop="dateCreated datePublished" datetime="2019-02-26T11:38:36+08:00">2019-02-26</time>
+              <time title="创建时间：2019-02-26 11:38:36" itemprop="dateCreated datePublished" datetime="2019-02-26T11:38:36+08:00">2019-02-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-28 16:04:26" itemprop="dateModified" datetime="2019-02-28T16:04:26+08:00">2019-02-28</time>
               
             
           </span>
@@ -502,135 +514,19 @@
 
       
         
-          
-            <p><img src="https://upload-images.jianshu.io/upload_images/15874442-60fa13c8cef07f61.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="thumb"></p>
+          <p><img src="https://upload-images.jianshu.io/upload_images/15874442-60fa13c8cef07f61.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="thumb"></p>
 <blockquote>
 <p>知己知彼，百战不殆。- 《孙子兵法》</p>
 </blockquote>
-<h2 id="1-了解服务监控"><a href="#1-了解服务监控" class="headerlink" title="1. 了解服务监控"></a>1. 了解服务监控</h2><p>为了能够及时了解服务线上运行时的状态，同时能够在服务处于异常状态时能够进行有效的通知报警，我们通常需要对服务进行监控管理。随着分布式微服务架构的流行，服务监控已经是现代web后端开发体系中，非常重要的组成部分。</p>
-<p>通常服务监控系统包括如下几个部分：</p>
-<ul>
-<li><p>数据提供方</p>
-<p>产生数据的终端，比如某web后端服务。</p>
-</li>
-<li><p>数据采集器</p>
-<p>主要用来采集数据，使用push或者pull的方式，从终端收集数据</p>
-</li>
-<li><p>数据存储</p>
-<p>主要将采集过来的数据以某种方式（通常存储到数据库）存储起来，供数据展示分析系统使用。</p>
-</li>
-<li><p>数据展示分析系统</p>
-<p>主要是对存储中的监控数据进行分析处理，并提供报警等功能。</p>
-</li>
-</ul>
-<p><img src="https://upload-images.jianshu.io/upload_images/15874442-bfd244c59e285ee4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="服务监控系统简单结构图"></p>
-<p>对于web后端开发人员，在开发服务时，就应考虑到服务监控的问题。我们可以采用比较流行的服务监控系统，帮助我们快速搭建服务监控平台。一般来说服务监控系统会集成了数据采集、数据存储、数据展示分析等功能。而后端开发人员则主要集中于数据提供方如何产生数据这部分的功能。</p>
-<blockquote>
-<p>推荐使用telegraf(数据采集) + influxdb(数据存储) + grafana(数据展示)组合，其中：</p>
-<ul>
-<li><a href="https://docs.influxdata.com/telegraf/v1.9/" target="_blank" rel="noopener">telegraf</a>：作为数据采集器，是一个插件驱动的服务器代理，用于收集指标数据。</li>
-<li><a href="https://www.influxdata.com/" target="_blank" rel="noopener">influxdb</a>：作为数据仓库，是一款优秀的<strong>时间序列数据库</strong>，使用Go语言编写。</li>
-<li><a href="https://grafana.com/" target="_blank" rel="noopener">grafana</a>：作为服务监控系统界面，是一款高颜值且功能强大的开源可视化工具。</li>
-</ul>
-</blockquote>
-<h2 id="2-数据采集方式"><a href="#2-数据采集方式" class="headerlink" title="2. 数据采集方式"></a>2. 数据采集方式</h2><h3 id="2-1-push方式"><a href="#2-1-push方式" class="headerlink" title="2.1 push方式"></a>2.1 push方式</h3><p>推方式，即数据提供方（如上图中的服务A），主动将自身运行状态信息（如内存使用信息、线程信息、GC信息等）进行上报。</p>
-<p>常见有两种方式：</p>
-<ul>
-<li><p>一种是数据提供方将数据push到数据采集器，一般数据采集器会提供socket通道，通过tcp/udp的方式来传输数据。</p>
-</li>
-<li><p>一种是数据提供方将数据push到消息中间件（如kafka、rabbitmq等），数据采集器通过监听消息队列获取数据。</p>
-<blockquote>
-<p>这种方式可以通过消息中间件进行对数据提供方和数据采集器进行解耦，比较适合用于大型的系统中。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="2-2-pull方式"><a href="#2-2-pull方式" class="headerlink" title="2.2 pull方式"></a>2.2 pull方式</h3><p>拉方式，即由数据采集器进行定时轮询从数据提供方进行拉取，要求数据提供方提供相应的接口供数据采集器获取数据。一般来说，数据提供方可以提供基于HTTP Restful接口。</p>
-<h3 id="2-3-如何选择？"><a href="#2-3-如何选择？" class="headerlink" title="2.3 如何选择？"></a>2.3 如何选择？</h3><p>push方式和pull方式各有其优点，使用何种方式应该集合具体业务场景、团队情况等方面综合而定。</p>
-<table>
-<thead>
-<tr>
-<th>项目</th>
-<th>pull</th>
-<th>push</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>实时性</td>
-<td>一般，取决于定时周期</td>
-<td>较好</td>
-</tr>
-<tr>
-<td>数据提供方</td>
-<td>被动上报数据，无需感知数据采集器的存在</td>
-<td>主动上报数据，需要主动感知数据采集器或消息中间件</td>
-</tr>
-<tr>
-<td>数据采集器</td>
-<td>主动拉取数据，需要感知数据提供方的存在</td>
-<td>被动接收数据，无需感知数据提供方的存在</td>
-</tr>
-<tr>
-<td>通常实现</td>
-<td>短连接，如：http接口</td>
-<td>长连接，如：tcp</td>
-</tr>
-</tbody>
-</table>
-<h2 id="3-uranus-service-服务监控模块"><a href="#3-uranus-service-服务监控模块" class="headerlink" title="3. uranus-service 服务监控模块"></a>3. <a href="https://github.com/netbsder/uranus-service" target="_blank" rel="noopener">uranus-service</a> 服务监控模块</h2><p>该服务监控模块，对外提供基于http restful接口，供数据采集器通过pull的方式收集数据。主要参考了java spring boot框架的actuaotr模块，提供了如下接口：</p>
-<table>
-<thead>
-<tr>
-<th>HTTP方法</th>
-<th>接口地址</th>
-<th>描述</th>
-<th>是否需授权</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET</td>
-<td>/health</td>
-<td>查看应用健康指标</td>
-<td>否，如需查看详细信息，则需要授权</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/info</td>
-<td>查看应用信息</td>
-<td>否</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/metrics</td>
-<td>查看应用指标信息</td>
-<td>是</td>
-</tr>
-<tr>
-<td>GET</td>
-<td>/metrics/{name}</td>
-<td>查看具体指标</td>
-<td>是</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>/shutdown</td>
-<td>关闭应用</td>
-<td>是</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-1-health接口"><a href="#3-1-health接口" class="headerlink" title="3.1 health接口"></a>3.1 health接口</h3><p>该接口用于查看应用健康指标。</p>
-<p>当未通过授权时，只能查看基本信息，例如：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"status"</span>: <span class="string">"up"</span>,</span><br><span class="line">    <span class="attr">"statusCode"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当通过授权(http basic auth)时，可以查看详细信息，例如：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"details"</span>: &#123;</span><br><span class="line">        <span class="attr">"disk"</span>: &#123;</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"up"</span>,</span><br><span class="line">            <span class="attr">"details"</span>: &#123;</span><br><span class="line">                <span class="attr">"free"</span>: <span class="number">930381459456</span>,</span><br><span class="line">                <span class="attr">"threshold"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"total"</span>: <span class="number">1127625711616</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"mem"</span>: &#123;</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"up"</span>,</span><br><span class="line">            <span class="attr">"details"</span>: &#123;</span><br><span class="line">                <span class="attr">"free"</span>: <span class="number">8645541888</span>,</span><br><span class="line">                <span class="attr">"total"</span>: <span class="number">17035321344</span>,</span><br><span class="line">                <span class="attr">"used"</span>: <span class="number">8389779456</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        ....</span><br><span class="line">    &#125;,</span><br><span class="line">    "status": "up",</span><br><span class="line">    "statusCode": 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><p>本节主要介绍了后端开发中需要了解的服务监控相关的知识、数据采集方式以及uranus-service服务监控模块的基本情况。下一节我们将重点关注health接口的实现中需要后端人员了解的http basic auth机制。</p>
-<blockquote>
-<p>本文为作者原创作品，属于《<a href="https://www.donnyzhang.com/categories/%E9%87%8D%E6%96%B0%E5%AD%A6%E4%B9%A0web%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">重新学习web后端开发</a>》专辑中的一篇，转载时请备注作者信息及来源。本文原文地址：<a href="https://www.donnyzhang.com/2019/02/26/uranus-006/">https://www.donnyzhang.com/2019/02/26/uranus-006/</a></p>
-</blockquote>
-
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/02/26/uranus-006/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
